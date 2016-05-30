@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
 * 文件: queue-array.h
-* 版本: V0.00
+* 版本: V0.01
 * 创建: Thu May 26 14:08:13 2016
 * 作者: 谭化成
 * 描述: 列队(数组实现)
@@ -10,7 +10,7 @@
 * +----------------------------------------------------------------------------------------------------+
 * |    时间    |  版本  |                              描 述                              |    作者    |
 * +----------------------------------------------------------------------------------------------------+
-* | yyyy/mm/dd |  0.00  |                                                                 |            |
+* | 2016/05/30 |  0.01  | 初版完成                                                        |  谭化成    |
 * +----------------------------------------------------------------------------------------------------+
 *
 *********************************************************************************************************
@@ -33,19 +33,19 @@
 /* 数据类型声明 ---------------------------------------------------------------------------------------*/
 typedef struct {
     struct {
-        void* buff;         /* 指向一块连续的内存区域 */
-        size_t size;        /* 数据单元占用字节数 */
-        uint16_t mlen;      /* buff最多可以存放的数据单元数 */
+        void *buff;     /* 指向一块连续的内存区域 */
+        size_t size;    /* 数据单元占用字节数 */
+        uint16_t mlen;  /* buff最多可以存放的数据单元数 */
     } data;
-    uint16_t front;
-    uint16_t rear;
-    bool full;
+    volatile uint16_t front;
+    volatile uint16_t rear;
 } queue_array_t;
 
 /* 函数声明 -------------------------------------------------------------------------------------------*/
 int32_t queue_array_init (queue_array_t *q, void *buff, const size_t size, const uint16_t mlen);
 int32_t queue_array_read (queue_array_t *q, void *buff, uint16_t length);
-int32_t queue_array_write (queue_array_t *q, const queue_array_data_t *datap, uint16_t length);
+int32_t queue_array_fill (queue_array_t *q, const void *buff, uint16_t length);
+int32_t queue_array_write (queue_array_t *q, const void *buff, uint16_t length);
 int32_t queue_array_length (const queue_array_t *q);
 
 #ifdef __cplusplus
