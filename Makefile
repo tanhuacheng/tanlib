@@ -19,7 +19,7 @@ tjitter.out : $(tjitter_obj)
 -include .depends.d
 
 config:
-	-./configure.sh
+	-./.configure.sh
 
 clean:
 	-rm *.o *.out
