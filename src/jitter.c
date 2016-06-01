@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
 * 文件: jitter.c
-* 版本: V0.00
+* 版本: V0.01
 * 创建: Tue May 31 11:23:49 2016
 * 作者: 谭化成
 * 描述: 抖动缓冲区
@@ -135,6 +135,7 @@ int32_t jitter_read (jitter_t* jitter, void* buffer)
         }
 
         int res;
+
         if ((res = queue_array_read(&jitter->queue, buffer, read)) < 0) {
             jitter->cnt_insert = 0;
             pthread_mutex_unlock(&jitter->lock);
@@ -182,6 +183,7 @@ int32_t jitter_write (jitter_t* jitter, const void* buffer, uint16_t length)
     }
 
     int32_t res;
+
     if ((res = queue_array_write(&jitter->queue, buffer, length)) < 0) {
         jitter->cnt_drop = 0;
         pthread_mutex_unlock(&jitter->lock);

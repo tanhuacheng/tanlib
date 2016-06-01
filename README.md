@@ -43,3 +43,22 @@
 > 获取列队中包含的数据单元数  
 >  
 
+## 4. jitter, 抖动缓冲区.
+创建jitter需要提供数据单元的字节数和每次读取的数据单元数. 缓冲区大小等在jitter.h中定义
+> jitter_t* jitter_create (const size_t size, const uint16_t unit);  
+> size: 数据单元的字节数; unit: 调用 jitter_read 时返回的数据单元数.  
+>  
+> int32_t jitter_read (jitter_t* jitter, void* buffer);  
+> buffer中至少须包含 unit*size 字节, 返回<0表示出错, 否则代表由于缓冲区内数据较少而插入的全0数据单元数  
+>  
+> int32_t jitter_write (jitter_t* jitter, const void* buffer, uint16_t length);  
+> 返回<0表示出错, 否则代表由于缓冲区数据太多而丢弃的数据单元数  
+>  
+> int32_t jitter_flush (jitter_t* jitter);  
+> 清空缓冲区  
+>  
+> int32_t jitter_destroy (jitter_t* jitter);  
+>  释放 jitter 占用资源  
+>  
+
+
