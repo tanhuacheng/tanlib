@@ -8,7 +8,7 @@
 
 static int array[QUEUE_LENGTH];
 
-static void show_queue (queue_array_t *q)
+static void show_queue (queue_array_t* q)
 {
     int data;
 
@@ -21,7 +21,7 @@ static void show_queue (queue_array_t *q)
 
 static queue_array_t q;
 
-void* thread_read (void *args)
+void* thread_read (void* args)
 {
     int buff[60];
 

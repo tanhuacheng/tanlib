@@ -22,7 +22,7 @@
 /* 私有函数声明 ---------------------------------------------------------------------------------------*/
 
 /* 函数定义 -------------------------------------------------------------------------------------------*/
-static inline bool queue_array_valid (const queue_array_t *q)
+static inline bool queue_array_valid (const queue_array_t* q)
 {
     if (NULL == q) {
         return false;
@@ -43,7 +43,7 @@ static inline uint16_t queue_array_cal_length (
     }
 }
 
-int32_t queue_array_init (queue_array_t *q, void *buff, const size_t size, const uint16_t mlen)
+int32_t queue_array_init (queue_array_t* q, void* buff, const size_t size, const uint16_t mlen)
 {
     if ((NULL == q) || (NULL == buff) || (0 == size) || (0 == mlen)) {
         return -1;
@@ -60,7 +60,7 @@ int32_t queue_array_init (queue_array_t *q, void *buff, const size_t size, const
     return 0;
 }
 
-int32_t queue_array_read (queue_array_t *q, void *buff, uint16_t length)
+int32_t queue_array_read (queue_array_t* q, void* buff, uint16_t length)
 {
     uint16_t front, rear;
     uint16_t copy;
@@ -97,7 +97,7 @@ int32_t queue_array_read (queue_array_t *q, void *buff, uint16_t length)
 }
 
 // type: 0 = fill, 1 = write
-static int32_t queue_array_fill_write (queue_array_t *q, const void *buff, uint16_t length, const uint8_t type)
+static int32_t queue_array_fill_write (queue_array_t* q, const void* buff, uint16_t length, const uint8_t type)
 {
     uint16_t front, rear;
     uint16_t copy;
@@ -142,17 +142,30 @@ static int32_t queue_array_fill_write (queue_array_t *q, const void *buff, uint1
     return length;
 }
 
-int32_t queue_array_fill (queue_array_t *q, const void *buff, uint16_t length)
+int32_t queue_array_fill (queue_array_t* q, const void* buff, uint16_t length)
 {
     return queue_array_fill_write(q, buff, length, 0);
 }
 
-int32_t queue_array_write (queue_array_t *q, const void *buff, uint16_t length)
+int32_t queue_array_write (queue_array_t* q, const void* buff, uint16_t length)
 {
     return queue_array_fill_write(q, buff, length, 1);
 }
 
-int32_t queue_array_length (const queue_array_t *q)
+int32_t queue_array_flush (queue_array_t* q)
+{
+    if (!queue_array_valid(q)) {
+        return -1;
+    }
+
+    memset(q->data.buff, 0, q->data.size * q->data.mlen);
+    q->front = 0;
+    q->rear = 0;
+
+    return 0;
+}
+
+int32_t queue_array_length (const queue_array_t* q)
 {
     if (!queue_array_valid(q)) {
         return -1;
