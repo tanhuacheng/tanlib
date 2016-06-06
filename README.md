@@ -61,4 +61,21 @@
 >  释放 jitter 占用资源  
 >  
 
+## 5. queue-array, 列队(链表实现).
+依赖 pthread.h 和 sys/time.h, 读列队时可选择立即返回, 超时等待, 一直等待等方式. 
+> queue_list_t* queue_list_create (void);  
+> 创建一个列队  
+>  
+> int32_t queue_list_read (queue_list_t* ql, void* buffer, uint16_t limit, int32_t timeout);  
+> 读取一个buffer, timeout: <0 = 立即返回, 0 = 一直等待, >0 = 超时时间(ms)  
+>  
+> int32_t queue_list_write (queue_list_t* ql, const void* buffer, uint16_t size);  
+>  写入一个buffer, 如果读列队操作正在等待, 将激活之  
+>  
+> int32_t queue_list_flush (queue_list_t* ql);  
+> 清空列队, 将激活所有正在等待的读列队操作  
+>  
+> int32_t queue_list_destroy (queue_list_t* ql);  
+> 销毁列队, 须保证销毁ql之时和之后没有任何其它线程使用它  
+>  
 
