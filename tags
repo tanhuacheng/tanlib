@@ -5,6 +5,9 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 ARRAY_LENGTH	test/tmemfill.c	7;"	d	file:
+BUFFER_SIZE	test/tqueue-link.c	8;"	d	file:
+BUFFER_SIZE	test/tqueue-list-vs-link.c	11;"	d	file:
+BUFFER_SIZE	test/tqueue-list.c	8;"	d	file:
 CC	Makefile	/^CC 		= gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS 	= -g -Wall --std gnu99 -I .\/include\/$/;"	m
 DIVMOD_H_	include/divmod.h	22;"	d
@@ -14,54 +17,65 @@ JITTER_PARAM_MUL_LOW	include/jitter.h	35;"	d
 JITTER_PARAM_MUL_MAX	include/jitter.h	32;"	d
 JITTER_PARAM_MUL_MET	include/jitter.h	36;"	d
 JITTER_PARAM_MUL_STD	include/jitter.h	34;"	d
-JITTER_READY	src/jitter.c	/^        JITTER_READY,   $/;"	e	enum:jitter::__anon4	file:
-JITTER_STANDBY	src/jitter.c	/^        JITTER_STANDBY,$/;"	e	enum:jitter::__anon4	file:
+JITTER_READY	src/jitter.c	/^        JITTER_READY,   $/;"	e	enum:jitter::__anon2	file:
+JITTER_STANDBY	src/jitter.c	/^        JITTER_STANDBY,$/;"	e	enum:jitter::__anon2	file:
 LDFLAGS	Makefile	/^LDFLAGS = -lpthread$/;"	m
 MEMFILL_H_	include/memfill.h	20;"	d
 MIN	src/memfill.c	16;"	d	file:
 QUEUE_ARRAY_H_	include/queue-array.h	20;"	d
 QUEUE_LENGTH	test/tqueue-array.c	7;"	d	file:
+QUEUE_LINK_H_	include/queue-link.h	20;"	d
 QUEUE_LIST_H_	include/queue-list.h	20;"	d
+TIMES	test/tqueue-list-vs-link.c	12;"	d	file:
 VPATH	Makefile	/^VPATH 	= .\/src\/ : .\/test\/ : .\/include\/$/;"	m
-__anon1::__anon2::buff	include/queue-array.h	/^        void* buff;     \/* 指向一块连续的内存区域 *\/$/;"	m	struct:__anon1::__anon2	access:public
-__anon1::__anon2::mlen	include/queue-array.h	/^        uint16_t mlen;  \/* buff最多可以存放的数据单元数 *\/$/;"	m	struct:__anon1::__anon2	access:public
-__anon1::__anon2::size	include/queue-array.h	/^        size_t size;    \/* 数据单元占用字节数 *\/$/;"	m	struct:__anon1::__anon2	access:public
-__anon1::data	include/queue-array.h	/^    } data;$/;"	m	struct:__anon1	typeref:struct:__anon1::__anon2	access:public
-__anon1::front	include/queue-array.h	/^    volatile uint16_t front;$/;"	m	struct:__anon1	access:public
-__anon1::rear	include/queue-array.h	/^    volatile uint16_t rear;$/;"	m	struct:__anon1	access:public
+__anon3::size	src/queue-link.c	/^    uint32_t size;$/;"	m	struct:__anon3	file:	access:public
+__anon3::top	src/queue-link.c	/^    queue_link_node_t* top;$/;"	m	struct:__anon3	file:	access:public
+__anon4::__anon5::buff	include/queue-array.h	/^        void* buff;     \/* 指向一块连续的内存区域 *\/$/;"	m	struct:__anon4::__anon5	access:public
+__anon4::__anon5::mlen	include/queue-array.h	/^        uint16_t mlen;  \/* buff最多可以存放的数据单元数 *\/$/;"	m	struct:__anon4::__anon5	access:public
+__anon4::__anon5::size	include/queue-array.h	/^        size_t size;    \/* 数据单元占用字节数 *\/$/;"	m	struct:__anon4::__anon5	access:public
+__anon4::data	include/queue-array.h	/^    } data;$/;"	m	struct:__anon4	typeref:struct:__anon4::__anon5	access:public
+__anon4::front	include/queue-array.h	/^    volatile uint16_t front;$/;"	m	struct:__anon4	access:public
+__anon4::rear	include/queue-array.h	/^    volatile uint16_t rear;$/;"	m	struct:__anon4	access:public
 array	test/tmemfill.c	/^static struct data array[ARRAY_LENGTH] = {{0}};$/;"	v	typeref:struct:data	file:
 array	test/tqueue-array.c	/^static int array[QUEUE_LENGTH];$/;"	v	file:
-buff	include/queue-array.h	/^        void* buff;     \/* 指向一块连续的内存区域 *\/$/;"	m	struct:__anon1::__anon2	access:public
+buff	include/queue-array.h	/^        void* buff;     \/* 指向一块连续的内存区域 *\/$/;"	m	struct:__anon4::__anon5	access:public
+buff	src/queue-link.c	/^    void* buff;$/;"	m	struct:queue_link_node	file:	access:public
+buff	test/tqueue-list-vs-link.c	/^static int16_t buff[BUFFER_SIZE];$/;"	v	file:
 buffer	src/queue-list.c	/^    void* buffer;$/;"	m	struct:queue_list_node	file:	access:public
+buffer	test/tqueue-link.c	/^static int16_t buffer[BUFFER_SIZE];$/;"	v	file:
+buffer	test/tqueue-list.c	/^static int16_t buffer[BUFFER_SIZE];$/;"	v	file:
 cnt_drop	src/jitter.c	/^    uint16_t cnt_drop;$/;"	m	struct:jitter	file:	access:public
 cnt_insert	src/jitter.c	/^    uint16_t cnt_insert;$/;"	m	struct:jitter	file:	access:public
+cond	src/queue-link.c	/^    pthread_cond_t cond;$/;"	m	struct:queue_link	file:	access:public
 cond	src/queue-list.c	/^    pthread_cond_t cond;$/;"	m	struct:queue_list	file:	access:public
-data	include/queue-array.h	/^    } data;$/;"	m	struct:__anon1	typeref:struct:__anon1::__anon2	access:public
+data	include/queue-array.h	/^    } data;$/;"	m	struct:__anon4	typeref:struct:__anon4::__anon5	access:public
 data	test/tmemfill.c	/^struct data {$/;"	s	file:
 data::x	test/tmemfill.c	/^    int x;$/;"	m	struct:data	file:	access:public
 data::y	test/tmemfill.c	/^    int y;$/;"	m	struct:data	file:	access:public
-front	include/queue-array.h	/^    volatile uint16_t front;$/;"	m	struct:__anon1	access:public
+front	include/queue-array.h	/^    volatile uint16_t front;$/;"	m	struct:__anon4	access:public
+head	src/queue-link.c	/^    volatile queue_link_node_t* head;$/;"	m	struct:queue_link	file:	access:public
 head	src/queue-list.c	/^    volatile queue_list_node_t* head;$/;"	m	struct:queue_list	file:	access:public
-hig	src/jitter.c	/^        uint16_t hig;$/;"	m	struct:jitter::__anon3	file:	access:public
+hig	src/jitter.c	/^        uint16_t hig;$/;"	m	struct:jitter::__anon1	file:	access:public
+idle	src/queue-link.c	/^    stack_idle_t idle;$/;"	m	struct:queue_link	file:	access:public
 imod	include/divmod.h	/^static inline uint32_t imod (uint32_t x, uint32_t y, uint32_t* z)$/;"	f	signature:(uint32_t x, uint32_t y, uint32_t* z)
 incmod	include/divmod.h	/^static inline uint32_t incmod (uint32_t inc, const uint32_t mod)$/;"	f	signature:(uint32_t inc, const uint32_t mod)
 jitter	src/jitter.c	/^struct jitter {$/;"	s	file:
 jitter	test/tjitter.c	/^jitter_t *jitter;$/;"	v
-jitter::JITTER_READY	src/jitter.c	/^        JITTER_READY,   $/;"	e	enum:jitter::__anon4	file:
-jitter::JITTER_STANDBY	src/jitter.c	/^        JITTER_STANDBY,$/;"	e	enum:jitter::__anon4	file:
-jitter::__anon3::hig	src/jitter.c	/^        uint16_t hig;$/;"	m	struct:jitter::__anon3	file:	access:public
-jitter::__anon3::low	src/jitter.c	/^        uint16_t low;$/;"	m	struct:jitter::__anon3	file:	access:public
-jitter::__anon3::max	src/jitter.c	/^        uint16_t max;$/;"	m	struct:jitter::__anon3	file:	access:public
-jitter::__anon3::met	src/jitter.c	/^        uint16_t met;$/;"	m	struct:jitter::__anon3	file:	access:public
-jitter::__anon3::size	src/jitter.c	/^        uint16_t size;$/;"	m	struct:jitter::__anon3	file:	access:public
-jitter::__anon3::std	src/jitter.c	/^        uint16_t std;$/;"	m	struct:jitter::__anon3	file:	access:public
-jitter::__anon3::unit	src/jitter.c	/^        uint16_t unit;$/;"	m	struct:jitter::__anon3	file:	access:public
+jitter::JITTER_READY	src/jitter.c	/^        JITTER_READY,   $/;"	e	enum:jitter::__anon2	file:
+jitter::JITTER_STANDBY	src/jitter.c	/^        JITTER_STANDBY,$/;"	e	enum:jitter::__anon2	file:
+jitter::__anon1::hig	src/jitter.c	/^        uint16_t hig;$/;"	m	struct:jitter::__anon1	file:	access:public
+jitter::__anon1::low	src/jitter.c	/^        uint16_t low;$/;"	m	struct:jitter::__anon1	file:	access:public
+jitter::__anon1::max	src/jitter.c	/^        uint16_t max;$/;"	m	struct:jitter::__anon1	file:	access:public
+jitter::__anon1::met	src/jitter.c	/^        uint16_t met;$/;"	m	struct:jitter::__anon1	file:	access:public
+jitter::__anon1::size	src/jitter.c	/^        uint16_t size;$/;"	m	struct:jitter::__anon1	file:	access:public
+jitter::__anon1::std	src/jitter.c	/^        uint16_t std;$/;"	m	struct:jitter::__anon1	file:	access:public
+jitter::__anon1::unit	src/jitter.c	/^        uint16_t unit;$/;"	m	struct:jitter::__anon1	file:	access:public
 jitter::cnt_drop	src/jitter.c	/^    uint16_t cnt_drop;$/;"	m	struct:jitter	file:	access:public
 jitter::cnt_insert	src/jitter.c	/^    uint16_t cnt_insert;$/;"	m	struct:jitter	file:	access:public
 jitter::lock	src/jitter.c	/^    pthread_mutex_t lock;$/;"	m	struct:jitter	file:	access:public
-jitter::param	src/jitter.c	/^    } param;$/;"	m	struct:jitter	typeref:struct:jitter::__anon3	file:	access:public
+jitter::param	src/jitter.c	/^    } param;$/;"	m	struct:jitter	typeref:struct:jitter::__anon1	file:	access:public
 jitter::queue	src/jitter.c	/^    queue_array_t queue;$/;"	m	struct:jitter	file:	access:public
-jitter::state	src/jitter.c	/^    } state;$/;"	m	struct:jitter	typeref:enum:jitter::__anon4	file:	access:public
+jitter::state	src/jitter.c	/^    } state;$/;"	m	struct:jitter	typeref:enum:jitter::__anon2	file:	access:public
 jitter_create	include/jitter.h	/^jitter_t* jitter_create (const size_t size, const uint16_t unit);$/;"	p	signature:(const size_t size, const uint16_t unit)
 jitter_create	src/jitter.c	/^jitter_t* jitter_create (const size_t size, const uint16_t unit)$/;"	f	signature:(const size_t size, const uint16_t unit)
 jitter_destroy	include/jitter.h	/^int32_t jitter_destroy (jitter_t* jitter);$/;"	p	signature:(jitter_t* jitter)
@@ -74,21 +88,29 @@ jitter_t	include/jitter.h	/^typedef struct jitter jitter_t;$/;"	t	typeref:struct
 jitter_write	include/jitter.h	/^int32_t jitter_write (jitter_t* jitter, const void* buffer, uint16_t length);$/;"	p	signature:(jitter_t* jitter, const void* buffer, uint16_t length)
 jitter_write	src/jitter.c	/^int32_t jitter_write (jitter_t* jitter, const void* buffer, uint16_t length)$/;"	f	signature:(jitter_t* jitter, const void* buffer, uint16_t length)
 lock	src/jitter.c	/^    pthread_mutex_t lock;$/;"	m	struct:jitter	file:	access:public
-low	src/jitter.c	/^        uint16_t low;$/;"	m	struct:jitter::__anon3	file:	access:public
+low	src/jitter.c	/^        uint16_t low;$/;"	m	struct:jitter::__anon1	file:	access:public
 main	test/tjitter.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tmemfill.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tqueue-array.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
+main	test/tqueue-link.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
+main	test/tqueue-list-vs-link.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tqueue-list.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
-max	src/jitter.c	/^        uint16_t max;$/;"	m	struct:jitter::__anon3	file:	access:public
+max	src/jitter.c	/^        uint16_t max;$/;"	m	struct:jitter::__anon1	file:	access:public
 memfill	include/memfill.h	/^void* memfill (void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize);$/;"	p	signature:(void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)
 memfill	src/memfill.c	/^void* memfill (void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)$/;"	f	signature:(void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)
 memfill2	test/tmemfill.c	/^static void* memfill2 (void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)$/;"	f	file:	signature:(void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)
-met	src/jitter.c	/^        uint16_t met;$/;"	m	struct:jitter::__anon3	file:	access:public
-mlen	include/queue-array.h	/^        uint16_t mlen;  \/* buff最多可以存放的数据单元数 *\/$/;"	m	struct:__anon1::__anon2	access:public
+met	src/jitter.c	/^        uint16_t met;$/;"	m	struct:jitter::__anon1	file:	access:public
+mlen	include/queue-array.h	/^        uint16_t mlen;  \/* buff最多可以存放的数据单元数 *\/$/;"	m	struct:__anon4::__anon5	access:public
+mutex	src/queue-link.c	/^    pthread_mutex_t mutex;$/;"	m	struct:queue_link	file:	access:public
 mutex	src/queue-list.c	/^    pthread_mutex_t mutex;$/;"	m	struct:queue_list	file:	access:public
+next	src/queue-link.c	/^    struct queue_link_node* next;$/;"	m	struct:queue_link_node	typeref:struct:queue_link_node::queue_link_node	file:	access:public
 next	src/queue-list.c	/^    struct queue_list_node* next;$/;"	m	struct:queue_list_node	typeref:struct:queue_list_node::queue_list_node	file:	access:public
-param	src/jitter.c	/^    } param;$/;"	m	struct:jitter	typeref:struct:jitter::__anon3	file:	access:public
+param	src/jitter.c	/^    } param;$/;"	m	struct:jitter	typeref:struct:jitter::__anon1	file:	access:public
 q	test/tqueue-array.c	/^static queue_array_t q;$/;"	v	file:
+q_link	test/tqueue-list-vs-link.c	/^static queue_link_t* q_link;$/;"	v	file:
+q_list	test/tqueue-list-vs-link.c	/^static queue_list_t* q_list;$/;"	v	file:
+ql	test/tqueue-link.c	/^static queue_link_t* ql;$/;"	v	file:
+ql	test/tqueue-list.c	/^static queue_list_t* ql;$/;"	v	file:
 queue	src/jitter.c	/^    queue_array_t queue;$/;"	m	struct:jitter	file:	access:public
 queue_array_cal_length	src/queue-array.c	/^static inline uint16_t queue_array_cal_length ($/;"	f	file:	signature:( const uint16_t front, const uint16_t rear, const uint16_t mlen)
 queue_array_fill	include/queue-array.h	/^int32_t queue_array_fill (queue_array_t* q, const void* buff, uint16_t length);$/;"	p	signature:(queue_array_t* q, const void* buff, uint16_t length)
@@ -102,10 +124,32 @@ queue_array_length	include/queue-array.h	/^int32_t queue_array_length (const que
 queue_array_length	src/queue-array.c	/^int32_t queue_array_length (const queue_array_t* q)$/;"	f	signature:(const queue_array_t* q)
 queue_array_read	include/queue-array.h	/^int32_t queue_array_read (queue_array_t* q, void* buff, uint16_t length);$/;"	p	signature:(queue_array_t* q, void* buff, uint16_t length)
 queue_array_read	src/queue-array.c	/^int32_t queue_array_read (queue_array_t* q, void* buff, uint16_t length)$/;"	f	signature:(queue_array_t* q, void* buff, uint16_t length)
-queue_array_t	include/queue-array.h	/^} queue_array_t;$/;"	t	typeref:struct:__anon1
+queue_array_t	include/queue-array.h	/^} queue_array_t;$/;"	t	typeref:struct:__anon4
 queue_array_valid	src/queue-array.c	/^static inline bool queue_array_valid (const queue_array_t* q)$/;"	f	file:	signature:(const queue_array_t* q)
 queue_array_write	include/queue-array.h	/^int32_t queue_array_write (queue_array_t* q, const void* buff, uint16_t length);$/;"	p	signature:(queue_array_t* q, const void* buff, uint16_t length)
 queue_array_write	src/queue-array.c	/^int32_t queue_array_write (queue_array_t* q, const void* buff, uint16_t length)$/;"	f	signature:(queue_array_t* q, const void* buff, uint16_t length)
+queue_link	src/queue-link.c	/^struct queue_link {$/;"	s	file:
+queue_link::cond	src/queue-link.c	/^    pthread_cond_t cond;$/;"	m	struct:queue_link	file:	access:public
+queue_link::head	src/queue-link.c	/^    volatile queue_link_node_t* head;$/;"	m	struct:queue_link	file:	access:public
+queue_link::idle	src/queue-link.c	/^    stack_idle_t idle;$/;"	m	struct:queue_link	file:	access:public
+queue_link::mutex	src/queue-link.c	/^    pthread_mutex_t mutex;$/;"	m	struct:queue_link	file:	access:public
+queue_link::tail	src/queue-link.c	/^    queue_link_node_t* tail;$/;"	m	struct:queue_link	file:	access:public
+queue_link::wait	src/queue-link.c	/^    volatile uint32_t wait;$/;"	m	struct:queue_link	file:	access:public
+queue_link_create	include/queue-link.h	/^queue_link_t* queue_link_create (const uint32_t size);$/;"	p	signature:(const uint32_t size)
+queue_link_create	src/queue-link.c	/^queue_link_t* queue_link_create (const uint32_t size)$/;"	f	signature:(const uint32_t size)
+queue_link_destroy	include/queue-link.h	/^int32_t queue_link_destroy (queue_link_t* ql);$/;"	p	signature:(queue_link_t* ql)
+queue_link_destroy	src/queue-link.c	/^int32_t queue_link_destroy (queue_link_t* ql)$/;"	f	signature:(queue_link_t* ql)
+queue_link_flush	include/queue-link.h	/^int32_t queue_link_flush (queue_link_t* ql);$/;"	p	signature:(queue_link_t* ql)
+queue_link_flush	src/queue-link.c	/^int32_t queue_link_flush (queue_link_t* ql)$/;"	f	signature:(queue_link_t* ql)
+queue_link_node	src/queue-link.c	/^typedef struct queue_link_node {$/;"	s	file:
+queue_link_node::buff	src/queue-link.c	/^    void* buff;$/;"	m	struct:queue_link_node	file:	access:public
+queue_link_node::next	src/queue-link.c	/^    struct queue_link_node* next;$/;"	m	struct:queue_link_node	typeref:struct:queue_link_node::queue_link_node	file:	access:public
+queue_link_node_t	src/queue-link.c	/^} queue_link_node_t;$/;"	t	typeref:struct:queue_link_node	file:
+queue_link_read	include/queue-link.h	/^int32_t queue_link_read (queue_link_t* ql, void* buff, int32_t timeout);$/;"	p	signature:(queue_link_t* ql, void* buff, int32_t timeout)
+queue_link_read	src/queue-link.c	/^int32_t queue_link_read (queue_link_t* ql, void* buff, int32_t timeout)$/;"	f	signature:(queue_link_t* ql, void* buff, int32_t timeout)
+queue_link_t	include/queue-link.h	/^typedef struct queue_link queue_link_t;$/;"	t	typeref:struct:queue_link
+queue_link_write	include/queue-link.h	/^int32_t queue_link_write (queue_link_t* ql, const void* buff);$/;"	p	signature:(queue_link_t* ql, const void* buff)
+queue_link_write	src/queue-link.c	/^int32_t queue_link_write (queue_link_t* ql, const void* buff)$/;"	f	signature:(queue_link_t* ql, const void* buff)
 queue_list	src/queue-list.c	/^struct queue_list {$/;"	s	file:
 queue_list::cond	src/queue-list.c	/^    pthread_cond_t cond;$/;"	m	struct:queue_list	file:	access:public
 queue_list::head	src/queue-list.c	/^    volatile queue_list_node_t* head;$/;"	m	struct:queue_list	file:	access:public
@@ -128,23 +172,41 @@ queue_list_read	src/queue-list.c	/^int32_t queue_list_read (queue_list_t* ql, vo
 queue_list_t	include/queue-list.h	/^typedef struct queue_list queue_list_t;$/;"	t	typeref:struct:queue_list
 queue_list_write	include/queue-list.h	/^int32_t queue_list_write (queue_list_t* ql, const void* buffer, uint16_t size);$/;"	p	signature:(queue_list_t* ql, const void* buffer, uint16_t size)
 queue_list_write	src/queue-list.c	/^int32_t queue_list_write (queue_list_t* ql, const void* buffer, uint16_t size)$/;"	f	signature:(queue_list_t* ql, const void* buffer, uint16_t size)
-rear	include/queue-array.h	/^    volatile uint16_t rear;$/;"	m	struct:__anon1	access:public
+rear	include/queue-array.h	/^    volatile uint16_t rear;$/;"	m	struct:__anon4	access:public
 show_array	test/tmemfill.c	/^static void show_array (void)$/;"	f	file:	signature:(void)
 show_queue	test/tqueue-array.c	/^static void show_queue (queue_array_t* q)$/;"	f	file:	signature:(queue_array_t* q)
-size	include/queue-array.h	/^        size_t size;    \/* 数据单元占用字节数 *\/$/;"	m	struct:__anon1::__anon2	access:public
-size	src/jitter.c	/^        uint16_t size;$/;"	m	struct:jitter::__anon3	file:	access:public
+size	include/queue-array.h	/^        size_t size;    \/* 数据单元占用字节数 *\/$/;"	m	struct:__anon4::__anon5	access:public
+size	src/jitter.c	/^        uint16_t size;$/;"	m	struct:jitter::__anon1	file:	access:public
+size	src/queue-link.c	/^    uint32_t size;$/;"	m	struct:__anon3	file:	access:public
 size	src/queue-list.c	/^    uint16_t size;$/;"	m	struct:queue_list_node	file:	access:public
-state	src/jitter.c	/^    } state;$/;"	m	struct:jitter	typeref:enum:jitter::__anon4	file:	access:public
-std	src/jitter.c	/^        uint16_t std;$/;"	m	struct:jitter::__anon3	file:	access:public
+stack_idle_free	src/queue-link.c	/^static void stack_idle_free (stack_idle_t* idle)$/;"	f	file:	signature:(stack_idle_t* idle)
+stack_idle_init	src/queue-link.c	/^static void stack_idle_init (stack_idle_t* idle, const uint32_t size)$/;"	f	file:	signature:(stack_idle_t* idle, const uint32_t size)
+stack_idle_pop	src/queue-link.c	/^static queue_link_node_t* stack_idle_pop (stack_idle_t* idle)$/;"	f	file:	signature:(stack_idle_t* idle)
+stack_idle_push	src/queue-link.c	/^static void stack_idle_push (stack_idle_t* idle, queue_link_node_t* node)$/;"	f	file:	signature:(stack_idle_t* idle, queue_link_node_t* node)
+stack_idle_t	src/queue-link.c	/^} stack_idle_t;$/;"	t	typeref:struct:__anon3	file:
+state	src/jitter.c	/^    } state;$/;"	m	struct:jitter	typeref:enum:jitter::__anon2	file:	access:public
+std	src/jitter.c	/^        uint16_t std;$/;"	m	struct:jitter::__anon1	file:	access:public
+tail	src/queue-link.c	/^    queue_link_node_t* tail;$/;"	m	struct:queue_link	file:	access:public
 tail	src/queue-list.c	/^    volatile queue_list_node_t* tail;$/;"	m	struct:queue_list	file:	access:public
+temp	test/tqueue-list-vs-link.c	/^static int16_t temp[BUFFER_SIZE];$/;"	v	file:
+tempbf	test/tqueue-link.c	/^static int16_t tempbf[BUFFER_SIZE];$/;"	v	file:
+tempbf	test/tqueue-list.c	/^static int16_t tempbf[BUFFER_SIZE];$/;"	v	file:
 thread_read	test/tjitter.c	/^void* thread_read (void* args)$/;"	f	signature:(void* args)
 thread_read	test/tjitter.c	/^void* thread_read (void* args);$/;"	p	file:	signature:(void* args)
 thread_read	test/tqueue-array.c	/^void* thread_read (void* args)$/;"	f	signature:(void* args)
+thread_send	test/tqueue-link.c	/^static void* thread_send (void* args)$/;"	f	file:	signature:(void* args)
+thread_send	test/tqueue-link.c	/^static void* thread_send (void*);$/;"	p	file:	signature:(void*)
+thread_send	test/tqueue-list.c	/^static void* thread_send (void* args)$/;"	f	file:	signature:(void* args)
+thread_send	test/tqueue-list.c	/^static void* thread_send (void*);$/;"	p	file:	signature:(void*)
 tjitter_obj	Makefile	/^tjitter_obj			= memfill.o queue-array.o jitter.o tjitter.o$/;"	m
 tmemfill_obj	Makefile	/^tmemfill_obj 		= memfill.o tmemfill.o$/;"	m
+top	src/queue-link.c	/^    queue_link_node_t* top;$/;"	m	struct:__anon3	file:	access:public
 tqueue_array_obj	Makefile	/^tqueue_array_obj 	= memfill.o queue-array.o tqueue-array.o$/;"	m
+tqueue_link_obj	Makefile	/^tqueue_link_obj 	= queue-link.o tqueue-link.o$/;"	m
 tqueue_list_obj	Makefile	/^tqueue_list_obj		= queue-list.o tqueue-list.o$/;"	m
-unit	src/jitter.c	/^        uint16_t unit;$/;"	m	struct:jitter::__anon3	file:	access:public
+tqueue_list_vs_link_obj	Makefile	/^tqueue_list_vs_link_obj = queue-list.o queue-link.o tqueue-list-vs-link.o$/;"	m
+unit	src/jitter.c	/^        uint16_t unit;$/;"	m	struct:jitter::__anon1	file:	access:public
+wait	src/queue-link.c	/^    volatile uint32_t wait;$/;"	m	struct:queue_link	file:	access:public
 wait	src/queue-list.c	/^    volatile uint32_t wait;$/;"	m	struct:queue_list	file:	access:public
 x	test/tmemfill.c	/^    int x;$/;"	m	struct:data	file:	access:public
 y	test/tmemfill.c	/^    int y;$/;"	m	struct:data	file:	access:public
