@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
 * 文件: memfill.c
-* 版本: V0.01
+* 版本: V0.02
 * 创建: Wed May 25 23:05:32 2016
 * 作者: 谭化成
 * 描述: 使用内存块填充内存区域
@@ -26,7 +26,7 @@ void* memfill (void* restrict dstp, size_t dstsize, const void* restrict patp, s
 {
     size_t copy, indx;
 
-    if ((NULL == dstp) || (NULL == patp)) {
+    if ((NULL == dstp) || (NULL == patp) || (0 == patsize)) {
         return dstp;
     }
 
