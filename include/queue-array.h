@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
 * 文件: queue-array.h
-* 版本: V0.01
+* 版本: V0.02
 * 创建: Thu May 26 14:08:13 2016
 * 作者: 谭化成
 * 描述: 列队(数组实现)
@@ -11,6 +11,8 @@
 * |    时间    |  版本  |                              描 述                              |    作者    |
 * +----------------------------------------------------------------------------------------------------+
 * | 2016/05/30 |  0.01  | 初版完成                                                        |  谭化成    |
+* +----------------------------------------------------------------------------------------------------+
+* | 2016/06/08 |  0.02  | 数据长度类型定义为 int32_t                                      |  谭化成    |
 * +----------------------------------------------------------------------------------------------------+
 *
 *********************************************************************************************************
@@ -33,19 +35,20 @@
 /* 数据类型声明 ---------------------------------------------------------------------------------------*/
 typedef struct {
     struct {
-        void* buff;     /* 指向一块连续的内存区域 */
-        size_t size;    /* 数据单元占用字节数 */
-        uint16_t mlen;  /* buff最多可以存放的数据单元数 */
+        void* buff; /* 指向一块连续的内存区域 */
+        size_t size; /* 数据单元占用字节数 */
+        uint32_t mlen; /* buff最多可以存放的数据单元数 */
     } data;
-    volatile uint16_t front;
-    volatile uint16_t rear;
+    volatile uint32_t front;
+    volatile uint32_t rear;
 } queue_array_t;
 
 /* 函数声明 -------------------------------------------------------------------------------------------*/
-int32_t queue_array_init (queue_array_t* q, void* buff, const size_t size, const uint16_t mlen);
-int32_t queue_array_read (queue_array_t* q, void* buff, uint16_t length);
-int32_t queue_array_fill (queue_array_t* q, const void* buff, uint16_t length);
-int32_t queue_array_write (queue_array_t* q, const void* buff, uint16_t length);
+// 列队中的数据数量是以初始化时的 size 为单位的
+int32_t queue_array_init (queue_array_t* q, void* buff, const size_t size, const int32_t mlen);
+int32_t queue_array_read (queue_array_t* q, void* buff, int32_t length);
+int32_t queue_array_fill (queue_array_t* q, const void* buff, int32_t length);
+int32_t queue_array_write (queue_array_t* q, const void* buff, int32_t length);
 int32_t queue_array_flush (queue_array_t* q);
 int32_t queue_array_length (const queue_array_t* q);
 
