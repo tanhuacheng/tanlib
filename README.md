@@ -61,7 +61,7 @@
 >  释放 jitter 占用资源  
 >  
 
-## 5. queue-array, 列队(链表实现).
+## 5. queue-list, 列队(链表实现).
 依赖 pthread.h 和 sys/time.h, 读列队时可选择立即返回, 超时等待, 一直等待等方式. 
 > queue_list_t* queue_list_create (void);  
 > 创建一个列队  
@@ -77,5 +77,14 @@
 >  
 > int32_t queue_list_destroy (queue_list_t* ql);  
 > 销毁列队, 须保证销毁ql之时和之后没有任何其它线程使用它  
+>  
+
+## 6. queue-link, 列队(链表实现, 固定数据长度).
+和 queue-list 类似， 但是每次读写时不用提供数据长度参数， 而是在创建时指定, 之后的读写都使用这个长度. 其中使用了一个空闲数据栈, 避免了每次读写时的释放和申请内存的花销
+> queue_link_t* queue_link_create (const int32_t size);  
+> int32_t queue_link_read (queue_link_t* ql, void* buff, const int32_t timeout);  
+> int32_t queue_link_write (queue_link_t* ql, const void* buff);  
+> int32_t queue_link_flush (queue_link_t* ql);  
+> int32_t queue_link_destroy (queue_link_t* ql);  
 >  
 
