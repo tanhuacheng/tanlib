@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
 * 文件: queue-link.c
-* 版本: V0.01
+* 版本: V0.02
 * 创建: Tue Jun  7 21:21:37 2016
 * 作者: 谭化成
 * 描述: 列队(链表实现, 固定数据长度)
@@ -31,7 +31,7 @@ typedef struct {
 } stack_idle_t;
 
 struct queue_link {
-    volatile queue_link_node_t* head;
+    queue_link_node_t* head;
     queue_link_node_t* tail;
     stack_idle_t idle;
     volatile uint32_t wait;
@@ -45,7 +45,7 @@ struct queue_link {
 
 /* 函数定义 -------------------------------------------------------------------------------------------*/
 /* {{{ stack_idle_init */
-static void stack_idle_init (stack_idle_t* idle, const uint32_t size)
+static inline void stack_idle_init (stack_idle_t* idle, const uint32_t size)
 {
     idle->top = NULL;
     idle->size = size;
@@ -54,7 +54,7 @@ static void stack_idle_init (stack_idle_t* idle, const uint32_t size)
 
 /* {{{ stack_idle_pop */
 // 有则出栈, 空则创建一个
-static queue_link_node_t* stack_idle_pop (stack_idle_t* idle)
+static inline queue_link_node_t* stack_idle_pop (stack_idle_t* idle)
 {
     queue_link_node_t* node;
 
@@ -76,7 +76,7 @@ static queue_link_node_t* stack_idle_pop (stack_idle_t* idle)
 /* }}} */
 
 /* {{{ stack_idle_push */
-static void stack_idle_push (stack_idle_t* idle, queue_link_node_t* node)
+static inline void stack_idle_push (stack_idle_t* idle, queue_link_node_t* node)
 {
     node->next = idle->top;
     idle->top = node;
@@ -84,7 +84,7 @@ static void stack_idle_push (stack_idle_t* idle, queue_link_node_t* node)
 /* }}} */
 
 /* {{{ stack_idle_free */
-static void stack_idle_free (stack_idle_t* idle)
+static inline void stack_idle_free (stack_idle_t* idle)
 {
     queue_link_node_t* node;
 
@@ -141,9 +141,25 @@ error_free_ql:
 }
 /* }}} */
 
+/* {{{ spec_gettimeout */
+static inline void spec_gettimeout (struct timespec* ts, const uint32_t timeout)
+{
+    time_t sec, nsc;
+
+    sec = (timeout / 1000);
+    nsc = (timeout % 1000) * 1000000;
+    clock_gettime(CLOCK_REALTIME, ts);
+    nsc += ts->tv_nsec;
+    sec += (nsc / 1000000000);
+    nsc %= 1000000000;
+    ts->tv_nsec = nsc;
+    ts->tv_sec += sec;
+}
+/* }}} */
+
 /* {{{ queue_link_read */
 // timeout: <0 = 立即返回, 0 = 一直等待, >0 = 超时时间(ms)
-int32_t queue_link_read (queue_link_t* ql, void* buff, int32_t timeout)
+int32_t queue_link_read (queue_link_t* ql, void* buff, const int32_t timeout)
 {
     if ((NULL == ql) || (NULL == buff)) {
         return -1;
@@ -161,16 +177,7 @@ int32_t queue_link_read (queue_link_t* ql, void* buff, int32_t timeout)
             rc = pthread_cond_wait(&ql->cond, &ql->mutex);
         } else {
             struct timespec ts;
-            time_t sec, nsc;
-
-            sec = (timeout / 1000);
-            nsc = (timeout % 1000) * 1000000;
-            clock_gettime(CLOCK_REALTIME, &ts);
-            nsc += ts.tv_nsec;
-            sec += (nsc / 1000000000);
-            nsc %= 1000000000;
-            ts.tv_nsec = nsc;
-            ts.tv_sec += sec;
+            spec_gettimeout(&ts, timeout);
             rc = pthread_cond_timedwait(&ql->cond, &ql->mutex, &ts);
         }
         if (rc) { // 等待条件变量超时或错误, 否则由触发者设置
@@ -178,17 +185,17 @@ int32_t queue_link_read (queue_link_t* ql, void* buff, int32_t timeout)
         }
     }
 
-    // 等待超时 或 等待过程中调用了flush ql->head 应该定义为 volatile
-    if (NULL == ql->head->next) {
+    // 等待超时或等待过程中调用了flush, ql->head->next 可能已经改变
+    queue_link_node_t* node = ((volatile queue_link_node_t*)ql->head)->next;
+    if (NULL == node) {
         pthread_mutex_unlock(&ql->mutex);
         return 0;
     }
 
-    queue_link_node_t* node = ql->head->next;
     memcpy(buff, node->buff, ql->idle.size);
     ql->head->next = node->next;
     if (NULL == node->next) {
-        ql->tail = (queue_link_node_t*)ql->head;
+        ql->tail = ql->head;
     }
     stack_idle_push(&ql->idle, node);
     pthread_mutex_unlock(&ql->mutex);
@@ -233,16 +240,15 @@ int32_t queue_link_flush (queue_link_t* ql)
         return -1;
     }
 
-    queue_link_node_t* const head = (queue_link_node_t*)ql->head;
     queue_link_node_t* node;
 
     pthread_mutex_lock(&ql->mutex);
-    while (NULL != head->next) {
-        node = head->next;
-        head->next = node->next;
+    while (NULL != ql->head->next) {
+        node = ql->head->next;
+        ql->head->next = node->next;
         stack_idle_push(&ql->idle, node);
     }
-    ql->tail = head;
+    ql->tail = ql->head;
     if (ql->wait) {
         pthread_cond_broadcast(&ql->cond);
         ql->wait = 0;
@@ -265,7 +271,7 @@ int32_t queue_link_destroy (queue_link_t* ql)
     stack_idle_free(&ql->idle);
     pthread_cond_destroy(&ql->cond);
     pthread_mutex_destroy(&ql->mutex);
-    free((void*)ql->head);
+    free(ql->head);
     free(ql);
 
     return 0;
