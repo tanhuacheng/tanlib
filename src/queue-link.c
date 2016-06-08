@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
 * 文件: queue-link.c
-* 版本: V0.02
+* 版本: V0.03
 * 创建: Tue Jun  7 21:21:37 2016
 * 作者: 谭化成
 * 描述: 列队(链表实现, 固定数据长度)
@@ -98,12 +98,12 @@ static inline void stack_idle_free (stack_idle_t* idle)
 /* }}} */
 
 /* {{{ queue_link_create */
-queue_link_t* queue_link_create (const uint32_t size)
+queue_link_t* queue_link_create (const int32_t size)
 {
     queue_link_t* ql;
     queue_link_node_t* node;
 
-    if (0 == size) {
+    if (0 >= size) {
         return NULL;
     }
 
