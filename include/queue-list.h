@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
 * 文件: queue-list.h
-* 版本: V0.01
+* 版本: V0.02
 * 创建: Mon Jun  6 10:32:19 2016
 * 作者: 谭化成
 * 描述: 列队(链表实现)
@@ -11,6 +11,9 @@
 * |    时间    |  版本  |                              描 述                              |    作者    |
 * +----------------------------------------------------------------------------------------------------+
 * | 2016/06/06 |  0.01  | 初版完成                                                        |  谭化成    |
+* +----------------------------------------------------------------------------------------------------+
+* | 2016/06/08 |  0.02  | 取消 queue_list_t 中 head 和 tail 的 volatile 声明;             |  谭化成    |
+* |            |        | 数据长度类型定义为 int32_t                                      |            |
 * +----------------------------------------------------------------------------------------------------+
 *
 *********************************************************************************************************
@@ -34,8 +37,8 @@ typedef struct queue_list queue_list_t;
 
 /* 函数声明 -------------------------------------------------------------------------------------------*/
 queue_list_t* queue_list_create (void);
-int32_t queue_list_read (queue_list_t* ql, void* buffer, uint16_t limit, int32_t timeout);
-int32_t queue_list_write (queue_list_t* ql, const void* buffer, uint16_t size);
+int32_t queue_list_read (queue_list_t* ql, void* buff, int32_t limit, const int32_t timeout);
+int32_t queue_list_write (queue_list_t* ql, const void* buff, const int32_t size);
 int32_t queue_list_flush (queue_list_t* ql);
 int32_t queue_list_destroy (queue_list_t* ql);
 

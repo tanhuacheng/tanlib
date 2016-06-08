@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
 * 文件: queue-list.c
-* 版本: V0.01
+* 版本: V0.02
 * 创建: Mon Jun  6 10:32:19 2016
 * 作者: 谭化成
 * 描述: 列队(链表实现)
@@ -21,14 +21,14 @@
 
 /* 私有数据类型声明 -----------------------------------------------------------------------------------*/
 typedef struct queue_list_node {
-    void* buffer;
-    uint16_t size;
+    void* buff;
+    int32_t size;
     struct queue_list_node* next;
 } queue_list_node_t;
 
 struct queue_list {
-    volatile queue_list_node_t* head;
-    volatile queue_list_node_t* tail;
+    queue_list_node_t* head;
+    queue_list_node_t* tail;
     volatile uint32_t wait;
     pthread_cond_t cond;
     pthread_mutex_t mutex;
@@ -58,7 +58,7 @@ queue_list_t* queue_list_create (void)
         goto error_destroy_cond;
     }
 
-    node->buffer = NULL;
+    node->buff = NULL;
     node->size = 0;
     node->next = NULL;
     ql->head = node;
@@ -79,11 +79,27 @@ error_free_ql:
 }
 /* }}} */
 
+/* {{{ spec_gettimeout */
+static inline void spec_gettimeout (struct timespec* ts, const uint32_t timeout)
+{
+    time_t sec, nsc;
+
+    sec = (timeout / 1000);
+    nsc = (timeout % 1000) * 1000000;
+    clock_gettime(CLOCK_REALTIME, ts);
+    nsc += ts->tv_nsec;
+    sec += (nsc / 1000000000);
+    nsc %= 1000000000;
+    ts->tv_nsec = nsc;
+    ts->tv_sec += sec;
+}
+/* }}} */
+
 /* {{{ queue_list_read */
 // timeout: <0 = 立即返回, 0 = 一直等待, >0 = 超时时间(ms)
-int32_t queue_list_read (queue_list_t* ql, void* buffer, uint16_t limit, int32_t timeout)
+int32_t queue_list_read (queue_list_t* ql, void* buff, int32_t limit, const int32_t timeout)
 {
-    if ((NULL == ql) || (NULL == buffer)) {
+    if ((NULL == ql) || (NULL == buff) || (0 > limit)) {
         return -1;
     }
 
@@ -99,34 +115,25 @@ int32_t queue_list_read (queue_list_t* ql, void* buffer, uint16_t limit, int32_t
             rc = pthread_cond_wait(&ql->cond, &ql->mutex);
         } else {
             struct timespec ts;
-            time_t sec, nsc;
-
-            sec = (timeout / 1000);
-            nsc = (timeout % 1000) * 1000000;
-            clock_gettime(CLOCK_REALTIME, &ts);
-            nsc += ts.tv_nsec;
-            sec += (nsc / 1000000000);
-            nsc %= 1000000000;
-            ts.tv_nsec = nsc;
-            ts.tv_sec += sec;
+            spec_gettimeout(&ts, timeout);
             rc = pthread_cond_timedwait(&ql->cond, &ql->mutex, &ts);
         }
         if (rc) {
             ql->wait--;
         }
     }
-    if (NULL == ql->head->next) { // 等待超时 或 等待过程中调用了flush
+    queue_list_node_t* node = ((volatile queue_list_node_t*)ql->head)->next;
+    if (NULL == node) { // 等待超时 或 等待过程中调用了flush
         pthread_mutex_unlock(&ql->mutex);
         return 0;
     }
-    queue_list_node_t* node = ql->head->next;
     limit = limit < node->size ? limit : node->size;
-    memcpy(buffer, node->buffer, limit);
+    memcpy(buff, node->buff, limit);
     ql->head->next = node->next;
     if (NULL == ql->head->next) {
         ql->tail = ql->head;
     }
-    free(node->buffer);
+    free(node->buff);
     free(node);
     pthread_mutex_unlock(&ql->mutex);
 
@@ -135,9 +142,9 @@ int32_t queue_list_read (queue_list_t* ql, void* buffer, uint16_t limit, int32_t
 /* }}} */
 
 /* {{{ queue_list_write */
-int32_t queue_list_write (queue_list_t* ql, const void* buffer, uint16_t size)
+int32_t queue_list_write (queue_list_t* ql, const void* buff, const int32_t size)
 {
-    if ((NULL == ql) || (NULL == buffer) || (0 == size)) {
+    if ((NULL == ql) || (NULL == buff) || (0 >= size)) {
         return -1;
     }
 
@@ -145,12 +152,12 @@ int32_t queue_list_write (queue_list_t* ql, const void* buffer, uint16_t size)
     if (NULL == node) {
         return -1;
     }
-    if (NULL == (node->buffer = malloc(size))) {
+    if (NULL == (node->buff = malloc(size))) {
         free(node);
         return -1;
     }
 
-    memcpy(node->buffer, buffer, size);
+    memcpy(node->buff, buff, size);
     node->size = size;
     node->next = NULL;
 
@@ -181,7 +188,7 @@ int32_t queue_list_flush (queue_list_t* ql)
     while (NULL != ql->head->next) {
         node = ql->head->next;
         ql->head->next = node->next;
-        free(node->buffer);
+        free(node->buff);
         free(node);
     }
     ql->tail = ql->head;
@@ -206,8 +213,8 @@ int32_t queue_list_destroy (queue_list_t* ql)
     queue_list_flush(ql);
     pthread_cond_destroy(&ql->cond);
     pthread_mutex_destroy(&ql->mutex);
-    free((void*)ql->head);
-    free((void*)ql);
+    free(ql->head);
+    free(ql);
 
     return 0;
 }
