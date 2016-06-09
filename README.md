@@ -17,7 +17,7 @@
 > static inline uint32_t incmod (uint32_t inc, const uint32_t mod);  
 > inc加1后对mod取余, 但须保证inc小于mod  
 >  
-> static inline uint32_t imod (uint32_t x, uint32_t y, uint32_t* z);  
+> static inline uint32_t divmod (uint32_t x, uint32_t y, uint32_t* z);  
 > 计算x/y: z在原值上加商, 返余数. 注意, 仅在x/y较小时用  
 
 ## 3. queue-array, 列队(数组实现).
