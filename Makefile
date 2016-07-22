@@ -1,6 +1,6 @@
 CC 		= gcc
 CFLAGS 	= -g -Wall --std gnu99 -I ./include/
-LDFLAGS = -lpthread
+LDFLAGS = -pthread
 VPATH 	= ./src/ : ./test/ : ./include/
 
 tmemfill_obj 		= memfill.o tmemfill.o
@@ -9,9 +9,10 @@ tjitter_obj			= memfill.o queue-array.o jitter.o tjitter.o
 tqueue_list_obj		= queue-list.o tqueue-list.o
 tqueue_link_obj 	= queue-link.o tqueue-link.o
 tqueue_list_vs_link_obj = queue-list.o queue-link.o tqueue-list-vs-link.o
+tbstree_obj			= tbstree.o bstree.o
 
 all : tmemfill.out tqueue-array.out tjitter.out tqueue-list.out tqueue-link.out \
-	tqueue-list-vs-link.out
+	tqueue-list-vs-link.out tbstree.out
 
 tmemfill.out : $(tmemfill_obj)
 	$(CC) $(CFLAGS) -o tmemfill.out $(tmemfill_obj) $(LDFLAGS)
@@ -25,6 +26,8 @@ tqueue-link.out : $(tqueue_link_obj)
 	$(CC) $(CFLAGS) -o tqueue-link.out $(tqueue_link_obj) $(LDFLAGS)
 tqueue-list-vs-link.out : $(tqueue_list_vs_link_obj)
 	$(CC) $(CFLAGS) -o tqueue-list-vs-link.out $(tqueue_list_vs_link_obj) $(LDFLAGS)
+tbstree.out : $(tbstree_obj)
+	$(CC) $(CFLAGS) -o tbstree.out $(tbstree_obj) $(LDFLAGS)
 
 -include .depends.d
 
