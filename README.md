@@ -88,6 +88,8 @@
 > int32_t queue_link_destroy (queue_link_t* ql);  
 >  
 
+## 7. 二叉搜索树
 
-## 6. 二叉搜索树
+## 8. foreach
+
 
