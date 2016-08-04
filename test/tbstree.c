@@ -1,6 +1,7 @@
 // tbstree.c
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -11,7 +12,7 @@ struct node {
     char string[32];
 };
 
-static int_fast32_t compare (const void* data1, const void* data2)
+static int compare (const void* data1, const void* data2)
 {
     const struct node* d1 = (const struct node*)data1;
     const struct node* d2 = (const struct node*)data2;

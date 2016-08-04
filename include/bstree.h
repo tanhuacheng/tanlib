@@ -2,15 +2,13 @@
 
 #pragma once
 
-#include <stdint.h>
-#include <stdlib.h>
+#include "typedefs.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 struct bstree;
-typedef int_fast32_t (*compare_func_t) (const void* data1, const void* data2);
 
 /*
  * 创建二叉搜索数
@@ -21,7 +19,7 @@ typedef int_fast32_t (*compare_func_t) (const void* data1, const void* data2);
  *   > 0: 表示 data1 大于 data2
  * 返回 NULL 表示创建失败, 否则返回创建好的二叉搜索树
  * */
-struct bstree* bstree_create (size_t size, compare_func_t compare);
+struct bstree* bstree_create (size_t size, compare_t compare);
 
 /*
  * 遍历二叉搜索树, 并在每个节点上回调 callback() 函数

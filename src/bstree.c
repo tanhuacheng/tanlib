@@ -1,5 +1,6 @@
 // bstree.c
 
+#include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
 #include "bstree.h"
@@ -14,7 +15,7 @@ struct bsnode {
 struct bstree {
     struct bsnode *root;
     size_t size;
-    compare_func_t compare;
+    compare_t compare;
     pthread_mutex_t mutex;
 };
 
@@ -28,7 +29,7 @@ static void bsnode_walk (const struct bsnode* node, void (*callback) (const void
     }
 }
 
-static struct bsnode* bsnode_search (struct bsnode* node, const void* data, compare_func_t compare)
+static struct bsnode* bsnode_search (struct bsnode* node, const void* data, compare_t compare)
 {
     int_fast32_t cmp;
 
@@ -95,7 +96,7 @@ static struct bsnode* bsnode_predecessor (struct bsnode* node)
 }
 */
 
-static void bsnode_insert (struct bsnode** root, struct bsnode* node, compare_func_t compare)
+static void bsnode_insert (struct bsnode** root, struct bsnode* node, compare_t compare)
 {
     struct bsnode* p = NULL;
     struct bsnode* x = *root;
@@ -163,7 +164,7 @@ static void bsnode_destroy (struct bsnode* node)
 }
 
 
-struct bstree* bstree_create (size_t size, compare_func_t compare)
+struct bstree* bstree_create (size_t size, compare_t compare)
 {
     if ((0 == size) || (NULL == compare)) {
         return NULL;
