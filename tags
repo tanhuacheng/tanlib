@@ -35,21 +35,24 @@ TIMES	test/tqueue-list-vs-link.c	12;"	d	file:
 VPATH	Makefile	/^VPATH 	= .\/src\/ : .\/test\/ : .\/include\/$/;"	m
 __anon3::size	src/queue-link.c	/^    uint32_t size;$/;"	m	struct:__anon3	file:	access:public
 __anon3::top	src/queue-link.c	/^    queue_link_node_t* top;$/;"	m	struct:__anon3	file:	access:public
-__anon4::__anon5::buff	include/queue-array.h	/^        void* buff; \/* 指向一块连续的内存区域 *\/$/;"	m	struct:__anon4::__anon5	access:public
-__anon4::__anon5::mlen	include/queue-array.h	/^        uint32_t mlen; \/* buff最多可以存放的数据单元数 *\/$/;"	m	struct:__anon4::__anon5	access:public
-__anon4::__anon5::size	include/queue-array.h	/^        size_t size; \/* 数据单元占用字节数 *\/$/;"	m	struct:__anon4::__anon5	access:public
-__anon4::data	include/queue-array.h	/^    } data;$/;"	m	struct:__anon4	typeref:struct:__anon4::__anon5	access:public
-__anon4::front	include/queue-array.h	/^    volatile uint32_t front;$/;"	m	struct:__anon4	access:public
-__anon4::rear	include/queue-array.h	/^    volatile uint32_t rear;$/;"	m	struct:__anon4	access:public
-__merge_sort	src/merge_sort.c	/^static void __merge_sort (struct aux_data* aux, size_t start, size_t end)$/;"	f	file:	signature:(struct aux_data* aux, size_t start, size_t end)
+__anon4::end	include/max-subarray.h	/^    size_t end;$/;"	m	struct:__anon4	access:public
+__anon4::start	include/max-subarray.h	/^    size_t start;$/;"	m	struct:__anon4	access:public
+__anon4::sum	include/max-subarray.h	/^    int sum;$/;"	m	struct:__anon4	access:public
+__anon5::__anon6::buff	include/queue-array.h	/^        void* buff; \/* 指向一块连续的内存区域 *\/$/;"	m	struct:__anon5::__anon6	access:public
+__anon5::__anon6::mlen	include/queue-array.h	/^        uint32_t mlen; \/* buff最多可以存放的数据单元数 *\/$/;"	m	struct:__anon5::__anon6	access:public
+__anon5::__anon6::size	include/queue-array.h	/^        size_t size; \/* 数据单元占用字节数 *\/$/;"	m	struct:__anon5::__anon6	access:public
+__anon5::data	include/queue-array.h	/^    } data;$/;"	m	struct:__anon5	typeref:struct:__anon5::__anon6	access:public
+__anon5::front	include/queue-array.h	/^    volatile uint32_t front;$/;"	m	struct:__anon5	access:public
+__anon5::rear	include/queue-array.h	/^    volatile uint32_t rear;$/;"	m	struct:__anon5	access:public
+__merge_sort	src/merge-sort.c	/^static void __merge_sort (struct aux_data* aux, size_t start, size_t end)$/;"	f	file:	signature:(struct aux_data* aux, size_t start, size_t end)
 array	test/tmemfill.c	/^static struct data array[ARRAY_LENGTH] = {{0}};$/;"	v	typeref:struct:data	file:
 array	test/tqueue-array.c	/^static int array[QUEUE_LENGTH];$/;"	v	file:
-aux_data	src/merge_sort.c	/^struct aux_data {$/;"	s	file:
-aux_data::base	src/merge_sort.c	/^    void* base;$/;"	m	struct:aux_data	file:	access:public
-aux_data::compare	src/merge_sort.c	/^    compare_t compare;$/;"	m	struct:aux_data	file:	access:public
-aux_data::size	src/merge_sort.c	/^    size_t size;$/;"	m	struct:aux_data	file:	access:public
-aux_data::temp	src/merge_sort.c	/^    void* temp;$/;"	m	struct:aux_data	file:	access:public
-base	src/merge_sort.c	/^    void* base;$/;"	m	struct:aux_data	file:	access:public
+aux_data	src/merge-sort.c	/^struct aux_data {$/;"	s	file:
+aux_data::base	src/merge-sort.c	/^    void* base;$/;"	m	struct:aux_data	file:	access:public
+aux_data::compare	src/merge-sort.c	/^    compare_t compare;$/;"	m	struct:aux_data	file:	access:public
+aux_data::size	src/merge-sort.c	/^    size_t size;$/;"	m	struct:aux_data	file:	access:public
+aux_data::temp	src/merge-sort.c	/^    void* temp;$/;"	m	struct:aux_data	file:	access:public
+base	src/merge-sort.c	/^    void* base;$/;"	m	struct:aux_data	file:	access:public
 bsnode	src/bstree.c	/^struct bsnode {$/;"	s	file:
 bsnode::data	src/bstree.c	/^    void* data;$/;"	m	struct:bsnode	file:	access:public
 bsnode::left	src/bstree.c	/^    struct bsnode* left;$/;"	m	struct:bsnode	typeref:struct:bsnode::bsnode	file:	access:public
@@ -85,7 +88,7 @@ bstree_search	include/bstree.h	/^int_fast32_t bstree_search (struct bstree* bstr
 bstree_search	src/bstree.c	/^int_fast32_t bstree_search (struct bstree* bstree, void* data)$/;"	f	signature:(struct bstree* bstree, void* data)
 bstree_walk	include/bstree.h	/^int_fast32_t bstree_walk (struct bstree* bstree, void (*callback) (const void* data));$/;"	p	signature:(struct bstree* bstree, void (*callback) (const void* data))
 bstree_walk	src/bstree.c	/^int_fast32_t bstree_walk (struct bstree* bstree, void (*callback) (const void* data))$/;"	f	signature:(struct bstree* bstree, void (*callback) (const void* data))
-buff	include/queue-array.h	/^        void* buff; \/* 指向一块连续的内存区域 *\/$/;"	m	struct:__anon4::__anon5	access:public
+buff	include/queue-array.h	/^        void* buff; \/* 指向一块连续的内存区域 *\/$/;"	m	struct:__anon5::__anon6	access:public
 buff	src/queue-link.c	/^    void* buff;$/;"	m	struct:queue_link_node	file:	access:public
 buff	src/queue-list.c	/^    void* buff;$/;"	m	struct:queue_list_node	file:	access:public
 buff	test/tqueue-list-vs-link.c	/^static int16_t buff[BUFFER_SIZE];$/;"	v	file:
@@ -95,27 +98,28 @@ callback	test/tbstree.c	/^static void callback (const void* data)$/;"	f	file:	si
 cnt_drop	src/jitter.c	/^    uint32_t cnt_drop;$/;"	m	struct:jitter	file:	access:public
 cnt_insert	src/jitter.c	/^    uint32_t cnt_insert;$/;"	m	struct:jitter	file:	access:public
 compare	src/bstree.c	/^    compare_t compare;$/;"	m	struct:bstree	file:	access:public
-compare	src/merge_sort.c	/^    compare_t compare;$/;"	m	struct:aux_data	file:	access:public
-compare	test/tbstree.c	/^static int_fast32_t compare (const void* data1, const void* data2)$/;"	f	file:	signature:(const void* data1, const void* data2)
+compare	src/merge-sort.c	/^    compare_t compare;$/;"	m	struct:aux_data	file:	access:public
+compare	test/tbstree.c	/^static int compare (const void* data1, const void* data2)$/;"	f	file:	signature:(const void* data1, const void* data2)
 compare	test/tsort.c	/^static int compare (const void* data1, const void* data2)$/;"	f	file:	signature:(const void* data1, const void* data2)
 compare_t	include/typedefs.h	/^typedef int (*compare_t) (const void*, const void*);$/;"	t
 cond	src/queue-link.c	/^    pthread_cond_t cond;$/;"	m	struct:queue_link	file:	access:public
 cond	src/queue-list.c	/^    pthread_cond_t cond;$/;"	m	struct:queue_list	file:	access:public
-data	include/queue-array.h	/^    } data;$/;"	m	struct:__anon4	typeref:struct:__anon4::__anon5	access:public
+data	include/queue-array.h	/^    } data;$/;"	m	struct:__anon5	typeref:struct:__anon5::__anon6	access:public
 data	src/bstree.c	/^    void* data;$/;"	m	struct:bsnode	file:	access:public
 data	test/tmemfill.c	/^struct data {$/;"	s	file:
 data::x	test/tmemfill.c	/^    int x;$/;"	m	struct:data	file:	access:public
 data::y	test/tmemfill.c	/^    int y;$/;"	m	struct:data	file:	access:public
 divmod	include/divmod.h	/^static inline uint32_t divmod (uint32_t x, uint32_t y, uint32_t* z)$/;"	f	signature:(uint32_t x, uint32_t y, uint32_t* z)
+end	include/max-subarray.h	/^    size_t end;$/;"	m	struct:__anon4	access:public
 foreach	include/foreach.h	20;"	d
-front	include/queue-array.h	/^    volatile uint32_t front;$/;"	m	struct:__anon4	access:public
+front	include/queue-array.h	/^    volatile uint32_t front;$/;"	m	struct:__anon5	access:public
 head	src/queue-link.c	/^    queue_link_node_t* head;$/;"	m	struct:queue_link	file:	access:public
 head	src/queue-list.c	/^    queue_list_node_t* head;$/;"	m	struct:queue_list	file:	access:public
 hig	src/jitter.c	/^        uint32_t hig;$/;"	m	struct:jitter::__anon1	file:	access:public
 idle	src/queue-link.c	/^    stack_idle_t idle;$/;"	m	struct:queue_link	file:	access:public
 incmod	include/divmod.h	/^static inline uint32_t incmod (uint32_t inc, const uint32_t mod)$/;"	f	signature:(uint32_t inc, const uint32_t mod)
 insert_sort	include/sort.h	/^int insert_sort (void* base, size_t nmemb, size_t size, compare_t compare);$/;"	p	signature:(void* base, size_t nmemb, size_t size, compare_t compare)
-insert_sort	src/insert_sort.c	/^int insert_sort (void* base, size_t nmemb, size_t size, compare_t compare)$/;"	f	signature:(void* base, size_t nmemb, size_t size, compare_t compare)
+insert_sort	src/insert-sort.c	/^int insert_sort (void* base, size_t nmemb, size_t size, compare_t compare)$/;"	f	signature:(void* base, size_t nmemb, size_t size, compare_t compare)
 jitter	src/jitter.c	/^struct jitter {$/;"	s	file:
 jitter	test/tjitter.c	/^jitter_t *jitter;$/;"	v
 jitter::JITTER_READY	src/jitter.c	/^        JITTER_READY,   $/;"	e	enum:jitter::__anon2	file:
@@ -151,6 +155,7 @@ low	src/jitter.c	/^        uint32_t low;$/;"	m	struct:jitter::__anon1	file:	acce
 main	test/tbstree.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tforeach.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tjitter.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
+main	test/tmax-subarray.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tmemfill.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tqueue-array.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tqueue-link.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
@@ -158,14 +163,18 @@ main	test/tqueue-list-vs-link.c	/^int main (int argc, char* argv[])$/;"	f	signat
 main	test/tqueue-list.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 main	test/tsort.c	/^int main (int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
 max	src/jitter.c	/^        uint32_t max;$/;"	m	struct:jitter::__anon1	file:	access:public
+max_subarray_int	include/max-subarray.h	/^int max_subarray_int (const int* array, size_t start, size_t end, max_subarray_result_int_t* result);$/;"	p	signature:(const int* array, size_t start, size_t end, max_subarray_result_int_t* result)
+max_subarray_int	src/max-subarray.c	/^int max_subarray_int (const int* array, size_t start, size_t end, max_subarray_result_int_t* result)$/;"	f	signature:(const int* array, size_t start, size_t end, max_subarray_result_int_t* result)
+max_subarray_int_cross	src/max-subarray.c	/^static void max_subarray_int_cross (const int* array, size_t start, size_t mid, size_t end, max_subarray_result_int_t* result)$/;"	f	file:	signature:(const int* array, size_t start, size_t mid, size_t end, max_subarray_result_int_t* result)
+max_subarray_result_int_t	include/max-subarray.h	/^} max_subarray_result_int_t;$/;"	t	typeref:struct:__anon4
 memfill	include/memfill.h	/^void* memfill (void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize);$/;"	p	signature:(void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)
 memfill	src/memfill.c	/^void* memfill (void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)$/;"	f	signature:(void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)
 memfill2	test/tmemfill.c	/^static void* memfill2 (void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)$/;"	f	file:	signature:(void* restrict dstp, size_t dstsize, const void* restrict patp, size_t patsize)
-merge	src/merge_sort.c	/^static void merge (struct aux_data* aux, size_t start, size_t middle, size_t end)$/;"	f	file:	signature:(struct aux_data* aux, size_t start, size_t middle, size_t end)
+merge	src/merge-sort.c	/^static void merge (struct aux_data* aux, size_t start, size_t middle, size_t end)$/;"	f	file:	signature:(struct aux_data* aux, size_t start, size_t middle, size_t end)
 merge_sort	include/sort.h	/^int merge_sort (void* base, size_t nmemb, size_t size, compare_t compare);$/;"	p	signature:(void* base, size_t nmemb, size_t size, compare_t compare)
-merge_sort	src/merge_sort.c	/^int merge_sort (void* base, size_t nmemb, size_t size, compare_t compare)$/;"	f	signature:(void* base, size_t nmemb, size_t size, compare_t compare)
+merge_sort	src/merge-sort.c	/^int merge_sort (void* base, size_t nmemb, size_t size, compare_t compare)$/;"	f	signature:(void* base, size_t nmemb, size_t size, compare_t compare)
 met	src/jitter.c	/^        uint32_t met;$/;"	m	struct:jitter::__anon1	file:	access:public
-mlen	include/queue-array.h	/^        uint32_t mlen; \/* buff最多可以存放的数据单元数 *\/$/;"	m	struct:__anon4::__anon5	access:public
+mlen	include/queue-array.h	/^        uint32_t mlen; \/* buff最多可以存放的数据单元数 *\/$/;"	m	struct:__anon5::__anon6	access:public
 mutex	src/bstree.c	/^    pthread_mutex_t mutex;$/;"	m	struct:bstree	file:	access:public
 mutex	src/queue-link.c	/^    pthread_mutex_t mutex;$/;"	m	struct:queue_link	file:	access:public
 mutex	src/queue-list.c	/^    pthread_mutex_t mutex;$/;"	m	struct:queue_list	file:	access:public
@@ -195,7 +204,7 @@ queue_array_length	include/queue-array.h	/^int32_t queue_array_length (const que
 queue_array_length	src/queue-array.c	/^int32_t queue_array_length (const queue_array_t* q)$/;"	f	signature:(const queue_array_t* q)
 queue_array_read	include/queue-array.h	/^int32_t queue_array_read (queue_array_t* q, void* buff, int32_t length);$/;"	p	signature:(queue_array_t* q, void* buff, int32_t length)
 queue_array_read	src/queue-array.c	/^int32_t queue_array_read (queue_array_t* q, void* buff, int32_t length)$/;"	f	signature:(queue_array_t* q, void* buff, int32_t length)
-queue_array_t	include/queue-array.h	/^} queue_array_t;$/;"	t	typeref:struct:__anon4
+queue_array_t	include/queue-array.h	/^} queue_array_t;$/;"	t	typeref:struct:__anon5
 queue_array_write	include/queue-array.h	/^int32_t queue_array_write (queue_array_t* q, const void* buff, int32_t length);$/;"	p	signature:(queue_array_t* q, const void* buff, int32_t length)
 queue_array_write	src/queue-array.c	/^int32_t queue_array_write (queue_array_t* q, const void* buff, int32_t length)$/;"	f	signature:(queue_array_t* q, const void* buff, int32_t length)
 queue_link	src/queue-link.c	/^struct queue_link {$/;"	s	file:
@@ -242,15 +251,15 @@ queue_list_read	src/queue-list.c	/^int32_t queue_list_read (queue_list_t* ql, vo
 queue_list_t	include/queue-list.h	/^typedef struct queue_list queue_list_t;$/;"	t	typeref:struct:queue_list
 queue_list_write	include/queue-list.h	/^int32_t queue_list_write (queue_list_t* ql, const void* buff, const int32_t size);$/;"	p	signature:(queue_list_t* ql, const void* buff, const int32_t size)
 queue_list_write	src/queue-list.c	/^int32_t queue_list_write (queue_list_t* ql, const void* buff, const int32_t size)$/;"	f	signature:(queue_list_t* ql, const void* buff, const int32_t size)
-rear	include/queue-array.h	/^    volatile uint32_t rear;$/;"	m	struct:__anon4	access:public
+rear	include/queue-array.h	/^    volatile uint32_t rear;$/;"	m	struct:__anon5	access:public
 right	src/bstree.c	/^    struct bsnode* right;$/;"	m	struct:bsnode	typeref:struct:bsnode::bsnode	file:	access:public
 root	src/bstree.c	/^    struct bsnode *root;$/;"	m	struct:bstree	typeref:struct:bstree::bsnode	file:	access:public
 show_array	test/tmemfill.c	/^static void show_array (void)$/;"	f	file:	signature:(void)
 show_queue	test/tqueue-array.c	/^static void show_queue (queue_array_t* q)$/;"	f	file:	signature:(queue_array_t* q)
-size	include/queue-array.h	/^        size_t size; \/* 数据单元占用字节数 *\/$/;"	m	struct:__anon4::__anon5	access:public
+size	include/queue-array.h	/^        size_t size; \/* 数据单元占用字节数 *\/$/;"	m	struct:__anon5::__anon6	access:public
 size	src/bstree.c	/^    size_t size;$/;"	m	struct:bstree	file:	access:public
 size	src/jitter.c	/^        size_t size;$/;"	m	struct:jitter::__anon1	file:	access:public
-size	src/merge_sort.c	/^    size_t size;$/;"	m	struct:aux_data	file:	access:public
+size	src/merge-sort.c	/^    size_t size;$/;"	m	struct:aux_data	file:	access:public
 size	src/queue-link.c	/^    uint32_t size;$/;"	m	struct:__anon3	file:	access:public
 size	src/queue-list.c	/^    int32_t size;$/;"	m	struct:queue_list_node	file:	access:public
 spec_gettimeout	src/queue-link.c	/^static inline void spec_gettimeout (struct timespec* ts, const uint32_t timeout)$/;"	f	file:	signature:(struct timespec* ts, const uint32_t timeout)
@@ -260,13 +269,15 @@ stack_idle_init	src/queue-link.c	/^static inline void stack_idle_init (stack_idl
 stack_idle_pop	src/queue-link.c	/^static inline queue_link_node_t* stack_idle_pop (stack_idle_t* idle)$/;"	f	file:	signature:(stack_idle_t* idle)
 stack_idle_push	src/queue-link.c	/^static inline void stack_idle_push (stack_idle_t* idle, queue_link_node_t* node)$/;"	f	file:	signature:(stack_idle_t* idle, queue_link_node_t* node)
 stack_idle_t	src/queue-link.c	/^} stack_idle_t;$/;"	t	typeref:struct:__anon3	file:
+start	include/max-subarray.h	/^    size_t start;$/;"	m	struct:__anon4	access:public
 state	src/jitter.c	/^    } state;$/;"	m	struct:jitter	typeref:enum:jitter::__anon2	file:	access:public
 std	src/jitter.c	/^        uint32_t std;$/;"	m	struct:jitter::__anon1	file:	access:public
 string	test/tbstree.c	/^    char string[32];$/;"	m	struct:node	file:	access:public
+sum	include/max-subarray.h	/^    int sum;$/;"	m	struct:__anon4	access:public
 tail	src/queue-link.c	/^    queue_link_node_t* tail;$/;"	m	struct:queue_link	file:	access:public
 tail	src/queue-list.c	/^    queue_list_node_t* tail;$/;"	m	struct:queue_list	file:	access:public
 tbstree_obj	Makefile	/^tbstree_obj			= tbstree.o bstree.o$/;"	m
-temp	src/merge_sort.c	/^    void* temp;$/;"	m	struct:aux_data	file:	access:public
+temp	src/merge-sort.c	/^    void* temp;$/;"	m	struct:aux_data	file:	access:public
 temp	test/tqueue-list-vs-link.c	/^static int16_t temp[BUFFER_SIZE];$/;"	v	file:
 tempbf	test/tqueue-link.c	/^static int16_t tempbf[BUFFER_SIZE];$/;"	v	file:
 tempbf	test/tqueue-list.c	/^static int16_t tempbf[BUFFER_SIZE];$/;"	v	file:
@@ -284,12 +295,14 @@ thread_send	test/tqueue-list.c	/^static void* thread_send (void* args)$/;"	f	fil
 thread_send	test/tqueue-list.c	/^static void* thread_send (void*);$/;"	p	file:	signature:(void*)
 time_diff	test/tsort.c	/^static uint64_t time_diff (struct timeval* b, struct timeval* e)$/;"	f	file:	signature:(struct timeval* b, struct timeval* e)
 tjitter_obj	Makefile	/^tjitter_obj			= memfill.o queue-array.o jitter.o tjitter.o$/;"	m
+tmax_subarray_obj	Makefile	/^tmax_subarray_obj 	= max-subarray.o tmax-subarray.o$/;"	m
 tmemfill_obj	Makefile	/^tmemfill_obj 		= memfill.o tmemfill.o$/;"	m
 top	src/queue-link.c	/^    queue_link_node_t* top;$/;"	m	struct:__anon3	file:	access:public
 tqueue_array_obj	Makefile	/^tqueue_array_obj 	= memfill.o queue-array.o tqueue-array.o$/;"	m
 tqueue_link_obj	Makefile	/^tqueue_link_obj 	= queue-link.o tqueue-link.o$/;"	m
 tqueue_list_obj	Makefile	/^tqueue_list_obj		= queue-list.o tqueue-list.o$/;"	m
 tqueue_list_vs_link_obj	Makefile	/^tqueue_list_vs_link_obj = queue-list.o queue-link.o tqueue-list-vs-link.o$/;"	m
+tsort_obj	Makefile	/^tsort_obj 			= insert-sort.o merge-sort.o tsort.o$/;"	m
 unit	src/jitter.c	/^        uint32_t unit;$/;"	m	struct:jitter::__anon1	file:	access:public
 wait	src/queue-link.c	/^    volatile uint32_t wait;$/;"	m	struct:queue_link	file:	access:public
 wait	src/queue-list.c	/^    volatile uint32_t wait;$/;"	m	struct:queue_list	file:	access:public

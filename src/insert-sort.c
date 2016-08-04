@@ -1,4 +1,4 @@
-// insert_sort.c
+// insert-sort.c
 
 #include <stdlib.h>
 #include <string.h>

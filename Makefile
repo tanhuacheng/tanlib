@@ -12,9 +12,10 @@ tqueue_list_vs_link_obj = queue-list.o queue-link.o tqueue-list-vs-link.o
 tbstree_obj			= tbstree.o bstree.o
 tforeach_obj 		= tforeach.o
 tsort_obj 			= insert-sort.o merge-sort.o tsort.o
+tmax_subarray_obj 	= max-subarray.o tmax-subarray.o
 
 all : tmemfill.out tqueue-array.out tjitter.out tqueue-list.out tqueue-link.out \
-	tqueue-list-vs-link.out tbstree.out tforeach.out tsort.out
+	tqueue-list-vs-link.out tbstree.out tforeach.out tsort.out tmax-subarray.out
 
 tmemfill.out : $(tmemfill_obj)
 	$(CC) $(CFLAGS) -o tmemfill.out $(tmemfill_obj) $(LDFLAGS)
@@ -34,6 +35,8 @@ tforeach.out : $(tforeach_obj)
 	$(CC) $(CFLAGS) -o tforeach.out $(tforeach_obj) $(LDFLAGS)
 tsort.out : $(tsort_obj)
 	$(CC) $(CFLAGS) -o tsort.out $(tsort_obj)
+tmax-subarray.out : $(tmax_subarray_obj)
+	$(CC) $(CFLAGS) -o tmax-subarray.out $(tmax_subarray_obj)
 
 -include .depends.d
 
