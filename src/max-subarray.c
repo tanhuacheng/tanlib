@@ -65,3 +65,36 @@ int max_subarray_int (const int* array, size_t start, size_t end, max_subarray_r
 
     return 0;
 }
+
+int max_subarray_int_r (const int* array, size_t start, size_t end, max_subarray_result_int_t* result)
+{
+    if ((NULL == array) || (start >= end)) {
+        return -1;
+    }
+
+    result->start = start;
+    result->end = start;
+    result->sum = array[start];
+
+    size_t cur_start = start;
+    int cur_sum = array[start];
+
+    for (size_t i = start + 1; i < end; i++) {
+        if (cur_sum < 0) {
+            cur_start = i;
+            cur_sum = array[i];
+        } else {
+            cur_sum += array[i];
+        }
+        if (cur_sum > result->sum) {
+            result->start = cur_start;
+            result->end = i;
+            result->sum = cur_sum;
+        }
+    }
+    result->end++;
+
+    return 0;
+}
+
+// end of file

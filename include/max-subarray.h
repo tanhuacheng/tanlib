@@ -19,6 +19,7 @@ typedef struct {
  * 返回 0 表示执行成功且结果写入 result 中, 否则返回 -1(array 为空或 start >= end)
  * */
 int max_subarray_int (const int* array, size_t start, size_t end, max_subarray_result_int_t* result);
+int max_subarray_int_r (const int* array, size_t start, size_t end, max_subarray_result_int_t* result);
 
 #ifdef __cplusplus
 }

@@ -15,7 +15,14 @@ int main (int argc, char* argv[])
 
     max_subarray_result_int_t result;
     max_subarray_int(array, 0, length, &result);
-    printf("result: start: %ld, end: %ld, sum: %d\n", result.start, result.end, result.sum);
+    printf("max_subarray_int result -> start: %ld, end: %ld, sum: %d\n", result.start, result.end, result.sum);
+    for (size_t i = result.start; i < result.end; i++) {
+        printf("%d ", array[i]);
+    }
+    printf("\n");
+
+    max_subarray_int_r(array, 0, length, &result);
+    printf("max_subarray_int_r result -> start: %ld, end: %ld, sum: %d\n", result.start, result.end, result.sum);
     for (size_t i = result.start; i < result.end; i++) {
         printf("%d ", array[i]);
     }
