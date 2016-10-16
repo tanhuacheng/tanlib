@@ -8,6 +8,7 @@ merge-sort.o: src/merge-sort.c include/sort.h include/typedefs.h
 queue-array.o: src/queue-array.c include/memfill.h include/queue-array.h
 queue-link.o: src/queue-link.c include/queue-link.h
 queue-list.o: src/queue-list.c include/queue-list.h
+zero-cross.o: src/zero-cross.c include/zero-cross.h
 tbstree.o: test/tbstree.c include/bstree.h include/typedefs.h
 tforeach.o: test/tforeach.c include/foreach.h
 tjitter.o: test/tjitter.c include/jitter.h
@@ -20,3 +21,4 @@ tqueue-list-vs-link.o: test/tqueue-list-vs-link.c include/queue-list.h \
  include/queue-link.h
 tqueue-list.o: test/tqueue-list.c include/queue-list.h
 tsort.o: test/tsort.c include/foreach.h include/sort.h include/typedefs.h
+tzero-cross.o: test/tzero-cross.c include/zero-cross.h

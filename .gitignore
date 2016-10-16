@@ -30,3 +30,9 @@
 
 # Debug files
 *.dSYM/
+
+# Others
+.ycm_extra_conf.pyc
+*.swp
+tags
+
