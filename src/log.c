@@ -10,9 +10,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
 #include <errno.h>
 #include <time.h>
+#include <stdarg.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -26,6 +26,9 @@ static struct tm last_tm;
 static struct timeval last_tv;
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
+static const char file_dir[] = LOG_FILE_DIR;
+static const char file_prefix[] = LOG_FILE_PREFIX;
+
 /* 函数定义 --------------------------------------------------------------------------------------*/
 static inline bool isdiffday (const struct tm* tm_prep, const struct tm* tm_nowp)
 {
@@ -33,7 +36,7 @@ static inline bool isdiffday (const struct tm* tm_prep, const struct tm* tm_nowp
              (tm_prep->tm_year == tm_nowp->tm_year));
 }
 
-// 移除当前时间(包含) 7 天以外的文件(时间由文件名解析)
+// 移除当前时间(包含) 7 天前以外的文件(时间从文件名解析)
 static inline bool needremove (const struct tm* tm_filp, const struct tm* tm_nowp)
 {
     if (tm_filp->tm_year == tm_nowp->tm_year) {
@@ -110,19 +113,22 @@ static int time_maybe_init (void)
         }
 
         errno = 0;
-        if ((mkdir(LOG_FILE_DIR, 0775) < 0) && (EEXIST != errno)) {
+        if ((mkdir(file_dir, 0775) < 0) && (EEXIST != errno)) {
             return -1;
         }
-        DIR* dirp = opendir(LOG_FILE_DIR);
+        DIR* dirp = opendir(file_dir);
         if (NULL == dirp) {
             return -1;
         }
 
-        char path[strlen(LOG_FILE_DIR) + strlen(LOG_FILE_PREFIX) + 32];
-        int dirlen = strlen(LOG_FILE_DIR);
-        strcpy(path, LOG_FILE_DIR);
-        if (path[dirlen - 1] != '/') {
-            path[dirlen++] = '/';
+#       define STRLEN_C(strp) (sizeof(strp) - 1)
+        static char path[STRLEN_C(file_dir) + STRLEN_C(file_prefix) + 64] = LOG_FILE_DIR;
+        static int dirlen = -1;
+        if (dirlen < 0) {
+            dirlen = STRLEN_C(file_dir);
+            if (path[dirlen - 1] != '/') {
+                path[dirlen++] = '/';
+            }
         }
 
         for (struct dirent* dp = NULL; ;) {
@@ -130,9 +136,9 @@ static int time_maybe_init (void)
             if (NULL == (dp = readdir(dirp))) {
                 break;
             }
-            if ((DT_REG == dp->d_type) && start_with(dp->d_name, LOG_FILE_PREFIX)) {
+            if ((DT_REG == dp->d_type) && start_with(dp->d_name, file_prefix)) {
                 struct tm tm_dp;
-                if (tm_filename(dp->d_name + strlen(LOG_FILE_PREFIX), &tm_dp) < 0) {
+                if (tm_filename(dp->d_name + STRLEN_C(file_prefix), &tm_dp) < 0) {
                     continue;
                 }
                 if (needremove(&tm_dp, &tm)) {
@@ -148,7 +154,7 @@ static int time_maybe_init (void)
         }
         closedir(dirp);
 
-        sprintf(path + dirlen, "%s%d-%d-%d.log", LOG_FILE_PREFIX,
+        sprintf(path + dirlen, "%s%d-%d-%d.log", file_prefix,
             tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
         if (NULL == (log_file = fopen(path, "a"))) {
             return -1;
