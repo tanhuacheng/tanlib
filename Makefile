@@ -14,10 +14,11 @@ tforeach_obj 		= tforeach.o
 tsort_obj 			= insert-sort.o merge-sort.o tsort.o
 tmax_subarray_obj 	= max-subarray.o tmax-subarray.o
 tzero_cross_obj		= zero-cross.o tzero-cross.o
+tlog_obj			= log.o tlog.o
 
 all : tmemfill.out tqueue-array.out tjitter.out tqueue-list.out tqueue-link.out \
 	  tqueue-list-vs-link.out tbstree.out tforeach.out tsort.out tmax-subarray.out \
-	  tzero-cross.out
+	  tzero-cross.out tlog.out
 
 tmemfill.out : $(tmemfill_obj)
 	$(CC) $(CFLAGS) -o tmemfill.out $(tmemfill_obj) $(LDFLAGS)
@@ -41,6 +42,8 @@ tmax-subarray.out : $(tmax_subarray_obj)
 	$(CC) $(CFLAGS) -o tmax-subarray.out $(tmax_subarray_obj)
 tzero-cross.out : $(tzero_cross_obj)
 	$(CC) $(CFLAGS) -o tzero-cross.out $(tzero_cross_obj) -lm
+tlog.out : $(tlog_obj)
+	$(CC) $(CFLAGS) -o tlog.out $(tlog_obj)
 
 -include .depends.d
 

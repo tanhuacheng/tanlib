@@ -35,4 +35,5 @@
 .ycm_extra_conf.pyc
 *.swp
 tags
+log/
 
