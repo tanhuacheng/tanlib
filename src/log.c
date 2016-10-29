@@ -9,25 +9,30 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <errno.h>
 #include <time.h>
-#include <stdarg.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <dirent.h>
+#include <unistd.h>
 #include <pthread.h>
+#include <dirent.h>
+
+/* 私有宏定义 ------------------------------------------------------------------------------------*/
+#define STRLEN_C(strp) (sizeof(strp) - 1)
 
 /* 私有全局变量定义 ------------------------------------------------------------------------------*/
-static FILE* log_file = NULL;
+static const char file_dir[] = LOG_FILE_DIR;
+static const char file_prefix[] = LOG_FILE_PREFIX;
+
+static FILE* filep = NULL;
+static char pathname[STRLEN_C(file_dir) + 1 + STRLEN_C(file_prefix) + 64] = LOG_FILE_DIR;
 static struct tm last_tm;
 static struct timeval last_tv;
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
-static const char file_dir[] = LOG_FILE_DIR;
-static const char file_prefix[] = LOG_FILE_PREFIX;
 
 /* 函数定义 --------------------------------------------------------------------------------------*/
 static inline bool isdiffday (const struct tm* tm_prep, const struct tm* tm_nowp)
@@ -36,15 +41,16 @@ static inline bool isdiffday (const struct tm* tm_prep, const struct tm* tm_nowp
              (tm_prep->tm_year == tm_nowp->tm_year));
 }
 
-// 移除当前时间(包含) 7 天前以外的文件(时间从文件名解析)
+// 移除当前时间(包含) LOG_FILE_DAYS 天前以外的文件(时间从文件名解析)
 static inline bool needremove (const struct tm* tm_filp, const struct tm* tm_nowp)
 {
     if (tm_filp->tm_year == tm_nowp->tm_year) {
-        return (tm_filp->tm_yday < (tm_nowp->tm_yday - 6)) || (tm_filp->tm_yday > tm_nowp->tm_yday);
+        return (tm_filp->tm_yday < (tm_nowp->tm_yday - (LOG_FILE_DAYS - 1))) ||
+               (tm_filp->tm_yday > tm_nowp->tm_yday);
     } else if (tm_filp->tm_year == (tm_nowp->tm_year - 1)) {
         struct tm tm = *tm_filp;
-        tm.tm_sec = 29; // avoid the impact of leap second
-        tm.tm_mday += 6;
+        tm.tm_sec = 29; // 避免 "润秒" 的影响
+        tm.tm_mday += (LOG_FILE_DAYS - 1);
         mktime(&tm);
         return (tm.tm_year != tm_nowp->tm_year) || (tm.tm_yday < tm_nowp->tm_yday);
     }
@@ -102,14 +108,19 @@ static int tm_filename (const char* filenamep, struct tm* tmp)
 
 static int time_maybe_init (void)
 {
+    if (filep && (0 != access(pathname, F_OK))) { // 已打开的文件可能被外部删除
+        fclose(filep);
+        filep = NULL;
+    }
+
     struct tm tm;
     gettimeofday(&last_tv, NULL);
     localtime_r(&last_tv.tv_sec, &tm);
 
-    if ((NULL == log_file) || isdiffday(&last_tm, &tm)) {
-        if (log_file) {
-            fclose(log_file);
-            log_file = NULL;
+    if ((NULL == filep) || isdiffday(&last_tm, &tm)) {
+        if (filep) {
+            fclose(filep);
+            filep = NULL;
         }
 
         errno = 0;
@@ -121,13 +132,11 @@ static int time_maybe_init (void)
             return -1;
         }
 
-#       define STRLEN_C(strp) (sizeof(strp) - 1)
-        static char path[STRLEN_C(file_dir) + STRLEN_C(file_prefix) + 64] = LOG_FILE_DIR;
         static int dirlen = -1;
         if (dirlen < 0) {
             dirlen = STRLEN_C(file_dir);
-            if (path[dirlen - 1] != '/') {
-                path[dirlen++] = '/';
+            if (pathname[dirlen - 1] != '/') {
+                pathname[dirlen++] = '/';
             }
         }
 
@@ -142,8 +151,8 @@ static int time_maybe_init (void)
                     continue;
                 }
                 if (needremove(&tm_dp, &tm)) {
-                    strcpy(path + dirlen, dp->d_name);
-                    remove(path);
+                    strcpy(pathname + dirlen, dp->d_name);
+                    remove(pathname);
                 }
             }
         }
@@ -154,9 +163,9 @@ static int time_maybe_init (void)
         }
         closedir(dirp);
 
-        sprintf(path + dirlen, "%s%d-%d-%d.log", file_prefix,
+        sprintf(pathname + dirlen, "%s%d-%d-%d.log", file_prefix,
             tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
-        if (NULL == (log_file = fopen(path, "a"))) {
+        if (NULL == (filep = fopen(pathname, "a"))) {
             return -1;
         }
     }
@@ -193,7 +202,7 @@ do { \
 int log_newline (void)
 {
     TIME_MAYBE_INIT_LOCK();
-    RETURN_UNLOCK(fprintf(log_file, "\n"));
+    RETURN_UNLOCK(fprintf(filep, "\n"));
 }
 
 int log_write (const char* file, int line, const char* hi, const char* fmt, ...)
@@ -202,28 +211,30 @@ int log_write (const char* file, int line, const char* hi, const char* fmt, ...)
 
     int n = 0;
 
-    int result = fprintf(log_file, "%dh:%dm:%ds-%ldus: ",
+    int result = fprintf(filep, "%dh:%dm:%ds-%ldus: ",
         last_tm.tm_hour, last_tm.tm_min, last_tm.tm_sec, last_tv.tv_usec);
     RETURN_ON_ERROR_UNLOCK(result);
     n += result;
 
-    result = fprintf(log_file, "%s:%d: %s", file, line, hi);
+    result = fprintf(filep, "%s:%d: %s", file, line, hi);
     RETURN_ON_ERROR_UNLOCK(result);
     n += result;
 
     va_list ap;
     va_start(ap, fmt);
-    result = vfprintf(log_file, fmt, ap);
+    result = vfprintf(filep, fmt, ap);
     va_end(ap);
     RETURN_ON_ERROR_UNLOCK(result);
     n += result;
 
     int fmtlen = strlen(fmt);
     if ((0 == fmtlen) || ('\n' != fmt[fmtlen - 1])) {
-        result = fprintf(log_file, "\n");
+        result = fprintf(filep, "\n");
         RETURN_ON_ERROR_UNLOCK(result);
         n += result;
     }
+
+    fflush(filep);
 
     RETURN_UNLOCK(n);
 }
