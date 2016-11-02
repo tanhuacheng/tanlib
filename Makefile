@@ -15,10 +15,11 @@ tsort_obj 			= insert-sort.o merge-sort.o tsort.o
 tmax_subarray_obj 	= max-subarray.o tmax-subarray.o
 tzero_cross_obj		= zero-cross.o tzero-cross.o
 tlog_obj			= log.o tlog.o
+tgetpid_byname_obj	= getpid-byname.o tgetpid-byname.o
 
 all : tmemfill.out tqueue-array.out tjitter.out tqueue-list.out tqueue-link.out \
 	  tqueue-list-vs-link.out tbstree.out tforeach.out tsort.out tmax-subarray.out \
-	  tzero-cross.out tlog.out
+	  tzero-cross.out tlog.out tgetpid-byname.out
 
 tmemfill.out : $(tmemfill_obj)
 	$(CC) $(CFLAGS) -o tmemfill.out $(tmemfill_obj) $(LDFLAGS)
@@ -44,6 +45,8 @@ tzero-cross.out : $(tzero_cross_obj)
 	$(CC) $(CFLAGS) -o tzero-cross.out $(tzero_cross_obj) -lm
 tlog.out : $(tlog_obj)
 	$(CC) $(CFLAGS) -o tlog.out $(tlog_obj)
+tgetpid-byname.out : $(tgetpid_byname_obj)
+	$(CC) $(CFLAGS) -o tgetpid-byname.out $(tgetpid_byname_obj)
 
 -include .depends.d
 

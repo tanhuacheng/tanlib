@@ -1,4 +1,5 @@
 bstree.o: src/bstree.c include/bstree.h include/typedefs.h
+getpid-byname.o: src/getpid-byname.c include/getpid-byname.h
 insert-sort.o: src/insert-sort.c include/sort.h include/typedefs.h
 jitter.o: src/jitter.c include/queue-array.h include/jitter.h
 log.o: src/log.c include/log.h
@@ -12,6 +13,7 @@ queue-list.o: src/queue-list.c include/queue-list.h
 zero-cross.o: src/zero-cross.c include/zero-cross.h
 tbstree.o: test/tbstree.c include/bstree.h include/typedefs.h
 tforeach.o: test/tforeach.c include/foreach.h
+tgetpid-byname.o: test/tgetpid-byname.c include/getpid-byname.h
 tjitter.o: test/tjitter.c include/jitter.h
 tlog.o: test/tlog.c include/log.h
 tmax-subarray.o: test/tmax-subarray.c include/foreach.h \
